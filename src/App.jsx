@@ -7,10 +7,11 @@ const MODES = {
 };
 
 function App() {
-  // 1. State: Mode, time remaining, and timer active status
+  // 1. State: Mode, time remaining, timer active status, and task objective
   const [mode, setMode] = useState('Focus');
   const [timeLeft, setTimeLeft] = useState(MODES.Focus.duration);
   const [isActive, setIsActive] = useState(false);
+  const [task, setTask] = useState('');
 
   // 2. The Engine: Runs every time 'isActive' or 'timeLeft' changes
   useEffect(() => {
@@ -53,7 +54,7 @@ function App() {
       <h1 className="text-4xl font-bold mb-8">Focus Session</h1>
 
       {/* Mode toggle buttons */}
-      <div className="flex gap-2 mb-8 bg-black/20 p-1.5 rounded-xl">
+      <div className="flex gap-2 mb-6 bg-black/20 p-1.5 rounded-xl">
         {Object.keys(MODES).map((modeName) => (
           <button
             key={modeName}
@@ -68,6 +69,15 @@ function App() {
           </button>
         ))}
       </div>
+
+      {/* Task input field */}
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="What are you working on?"
+        className="bg-transparent border-b border-white/20 focus:border-white/80 focus:outline-none text-center text-xl text-white placeholder-white/40 px-4 py-2 mb-8 w-80 max-w-full transition-all duration-300 focus:shadow-[0_2px_12px_rgba(255,255,255,0.2)]"
+      />
 
       <div className="text-8xl font-mono mb-12">
         {displayTime}
