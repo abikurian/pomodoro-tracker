@@ -39,6 +39,15 @@ function App() {
     setTimeLeft(MODES[newMode].duration);
   };
 
+  // 4. Dynamic browser tab title: Updates document.title based on timer state
+  useEffect(() => {
+    if (isActive) {
+      document.title = `(${displayTime}) Focus!`;
+    } else {
+      document.title = 'Pomodoro Tracker';
+    }
+  }, [isActive, displayTime]);
+
   return (
     <div className={`${MODES[mode].bg} min-h-screen text-emerald-50 flex flex-col items-center justify-center transition-colors duration-500`}>
       <h1 className="text-4xl font-bold mb-8">Focus Session</h1>
