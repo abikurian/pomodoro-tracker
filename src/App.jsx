@@ -7,11 +7,12 @@ const MODES = {
 };
 
 function App() {
-  // 1. State: Mode, time remaining, timer active status, and task objective
+  // 1. State: Mode, time remaining, timer active status, task objective, and completed cycles
   const [mode, setMode] = useState('Focus');
   const [timeLeft, setTimeLeft] = useState(MODES.Focus.duration);
   const [isActive, setIsActive] = useState(false);
   const [task, setTask] = useState('');
+  const [cyclesCompleted, setCyclesCompleted] = useState(0);
 
   // 2. The Engine: Runs every time 'isActive' or 'timeLeft' changes
   useEffect(() => {
@@ -24,10 +25,14 @@ function App() {
     } else {
       // If paused or hit 0, stop the clock
       clearInterval(interval);
+      if (timeLeft === 0 && mode === 'Focus') {
+        // oxlint-disable-next-line react/set-state-in-effect
+        setCyclesCompleted((prev) => prev + 1);
+      }
     }
     // Cleanup function prevents memory leaks when the component re-renders
     return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
+  }, [isActive, timeLeft, mode]);
 
   // 3. Formatting Math: Convert raw seconds into mm:ss layout
   const minutes = Math.floor(timeLeft / 60);
@@ -97,6 +102,10 @@ function App() {
         >
           Reset
         </button>
+      </div>
+
+      <div className="mt-8 text-white/70 text-sm font-medium tracking-wide">
+        🎯 Focus Sessions Completed: {cyclesCompleted}
       </div>
     </div>
   );
