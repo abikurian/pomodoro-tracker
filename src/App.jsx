@@ -26,6 +26,15 @@ function App() {
   const seconds = timeLeft % 60;
   const displayTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
+  // 4. Dynamic browser tab title: Updates document.title based on timer state
+  useEffect(() => {
+    if (isActive) {
+      document.title = `(${displayTime}) Focus!`;
+    } else {
+      document.title = 'Pomodoro Tracker';
+    }
+  }, [isActive, displayTime]);
+
   return (
     <div className="bg-emerald-950 min-h-screen text-emerald-50 flex flex-col items-center justify-center transition-colors duration-500">
       <h1 className="text-4xl font-bold mb-8">Focus Session</h1>
